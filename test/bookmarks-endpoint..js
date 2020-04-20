@@ -173,21 +173,21 @@ describe('Bookmarks Endpoints', function () {
             })
         })
 
-        // it(`responds with 400 invalid 'rating' if not a value of 1-5`, () => {
-        //     const newBookmarkInvalidRating = {
-        //         title: 'test-title',
-        //         url: 'https://test.com',
-        //         description: 'test-description',
-        //         rating: '6',
-        //     }
-        //     return supertest(app)
-        //         .post(`/bookmark`)
-        //         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        //         .send(newBookmarkInvalidRating)
-        //         .expect(400, {
-        //             error: { message: `Rating must be a value of 1-5` }
-        //         })
-        // })
+        it(`responds with 400 invalid 'rating' if not a value of 1-5`, () => {
+            const newBookmarkInvalidRating = {
+                title: 'test-title',
+                url: 'https://test.com',
+                description: 'test-description',
+                rating: '6',
+            }
+            return supertest(app)
+                .post(`/bookmark`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .send(newBookmarkInvalidRating)
+                .expect(400, {
+                    error: { message: `Rating must be a value of 1-5` }
+                })
+        })
 
         it('removes XSS attack content from response', () => {
             const { maliciousBookmark, expectedBookmark } = fixtures.makeMaliciousBookmark()

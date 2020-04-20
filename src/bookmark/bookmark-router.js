@@ -29,6 +29,7 @@ bookmarkRouter
     .post(bodyParser, (req, res, next) => {
         const { title, url, description, rating } = req.body;
         const newBookmark = { title, url, description, rating }
+        const ratingNum = parseInt(rating)
 
         for (const [key, value] of Object.entries(newBookmark)) {
             if (value == null) {
@@ -36,6 +37,13 @@ bookmarkRouter
                     error: { message: `Missing '${key}' in request body` }
                 })
             }
+        }
+
+        if (!Number.isInteger(ratingNum) || ratingNum < 0 || ratingNum > 5) {
+            logger.error(`Invalid rating '${rating}' supplied`)
+            return res.status(400).send({
+                error: { message: `Rating must be a value of 1-5` }
+            })
         }
 
         BookmarksService.insertBookmark(
