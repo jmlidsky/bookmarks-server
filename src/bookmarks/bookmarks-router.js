@@ -12,7 +12,7 @@ const serializeBookmark = bookmark => ({
     title: xss(bookmark.title),
     url: bookmark.url,
     description: xss(bookmark.description),
-    rating: bookmark.rating,
+    rating: parseInt(bookmark.rating),
 })
 
 bookmarksRouter
